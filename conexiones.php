@@ -10,6 +10,4 @@ try {
     die('Conection Failed: ' . $e->getMessage());
 }
 
-
 ?>
-
