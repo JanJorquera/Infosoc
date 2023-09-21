@@ -39,7 +39,7 @@
                             <p class="card-text mt-3">Lugar: <?php echo $lugar ?></p>
                             <p class="card-text mt-3">Paga: <?php echo $paga ?></p>
                             <button type="button" class="btn btn-outline-dark">
-                                <a class="link-dark" style="text-decoration: none" href="infosoc.php">Postular</a>
+                                <a class="link-dark" style="text-decoration: none" href="pagina2.php">Postular</a>
                             </button>
                         </div>
                     </div>
