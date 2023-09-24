@@ -17,7 +17,7 @@ $conn->exec($query);
 
 //Contiene registros de trabajadores.
 $query="CREATE TABLE IF NOT EXISTS regtrabajadores (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     saludo VARCHAR(100) NOT NULL,
     runtrabajador VARCHAR(100) NOT NULL,
     nombre1 VARCHAR(100) NOT NULL,
