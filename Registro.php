@@ -1,7 +1,6 @@
 <?php
 require_once 'conexiones.php';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +51,23 @@ require_once 'conexiones.php';
         background-color: #0056b3;
     }
 </style>
+
+    <script>
+        function formatRut(input) {
+            var value = input.value.replace(/[.-]/g, '');
+            var rut = value.slice(0, -1);
+            var dv = value.slice(-1);
+            var rutF = '';
+            if (rut.length <= 4) {
+                rutF = rut;
+            } else if (rut.length <= 6) {
+                rutF = rut.slice(0, rut.length - 3) + '.' + rut.slice(rut.length - 3);
+            } else {
+                rutF = rut.slice(0, rut.length - 6) + '.' + rut.slice(rut.length - 6, rut.length - 3) + '.' + rut.slice(rut.length - 3);
+            }
+            input.value = rutF + (rut ? '-' : '') + dv;
+        }
+    </script>
     <script>
         function toggleDetallesJubilacion() {
             var checkBox = document.getElementById("jubilado");
@@ -69,11 +85,13 @@ require_once 'conexiones.php';
     </script>
 </head>
 <body>
-<h1 class="titulo-centrado">Formulario de Registro de Trabajadores</h1>
-<form action="Registro.php" method="post" enctype="multipart/form-data">
-
-    <label for="rut">Rut:</label>
-    <input type="text" id="rut" name="rut" required><br>
+    <h1 class="titulo-centrado">Formulario de Registro de Trabajadores</h1>
+    <div class="titulo-centrado">
+        <h3>Para postular a la anterior oferta, primero ingresa todos tus datos:</h3>
+    </div>
+    <form action="Registro.php" method="post" enctype="multipart/form-data">
+        <label for="rut">Rut:</label>
+        <input type="text" id="rut" name="rut" required oninput="formatRut(this)"><br>
     
     <label for="nombre1">Primer Nombre:</label>
     <input type="text" id="nombre1" name="nombre1" required><br>
@@ -143,11 +161,14 @@ require_once 'conexiones.php';
 
     <input type="submit" value="Enviar" name="enviar">
 </form>
-
 <?php
 if (isset($_POST['enviar'])) {
     try {
-        $rut = $_POST['rut'];
+        // Recoger valores del formulario
+        $saludo = "Hola mundo";//Se debe personalizar el saludo
+        $runc = "11.111.111-1";//Se debe implementar logica para obtener el runcontratista
+        $calif = 0;
+        $run = $_POST['rut'];
         $nombre1 = $_POST['nombre1'];
         $nombre2 = $_POST['nombre2'];
         $apellido1 = $_POST['apellido1'];
@@ -164,30 +185,22 @@ if (isset($_POST['enviar'])) {
         $detalles_jubilacion = $_POST['detalles_jubilacion'];
         $anios_experiencia = $_POST['anios_experiencia'];
         $detalles_experiencia = $_POST['detalles_experiencia'];
-        $foto1 = $_FILES['foto1'];
-        $foto2 = $_FILES['foto2'];
+        
+        // Procesar imágenes
+        $directorioDeImagenes = "imagenes/";
+        $rutaDeImagen1 = $directorioDeImagenes . basename($_FILES["foto1"]["name"]);
+        $rutaDeImagen2 = $directorioDeImagenes . basename($_FILES["foto2"]["name"]);
 
-
-        $foto1 = file_get_contents($_FILES['foto1']['tmp_name']);
-        $foto2 = file_get_contents($_FILES['foto2']['tmp_name']);
-
-
-
-
-        $sql = "INSERT INTO regtrabajadores (
-            run, nombre1, nombre2, apellido1, apellido2, fecha_nacimiento, direccion, 
-            sector, ciudad, telefono, prevision, salud, jubilado, detalle, años, 
-            detallexp, foto1, foto2
-        ) VALUES (
-            :rut, :nombre1, :nombre2, :apellido1, :apellido2, :fecha, :direccion,
-            :sector, :ciudad, :telefono, :sistemaprevision, :sistemasalud, :jubilacion, 
-            :detalles_jubilacion, :anios_experiencia, :detalles_experiencia, :foto1, :foto2
-        )";
-
+        move_uploaded_file($_FILES["foto1"]["tmp_name"], $rutaDeImagen1);
+        move_uploaded_file($_FILES["foto2"]["tmp_name"], $rutaDeImagen2);
+        
+        // Declaración SQL
+        $sql = "INSERT INTO regtrabajadores (saludo, runtrabajador, nombre1, nombre2, apellido1, apellido2, fecha_nacimiento, direccion, sector, ciudad, telefono, whatsapp, sistprevision, sistsalud, jubilado, detalle, anos, detallexp, foto1, foto2, califtrabajo, runcontratista ) VALUES (:saludo, :rut, :nombre1, :nombre2, :apellido1, :apellido2, :fecha, :direccion, :sector, :ciudad, :telefono, :whatsapp, :sistemaprevision, :sistemasalud, :jubilacion, :detalles_jubilacion, :anios_experiencia, :detalles_experiencia, :foto1, :foto2, :calif, :runc)";
         $stmt = $conn->prepare($sql);
 
         // Vincular los parámetros
-        $stmt->bindParam(':rut', $rut);
+        $stmt->bindParam(':saludo', $saludo);
+        $stmt->bindParam(':rut', $run);
         $stmt->bindParam(':nombre1', $nombre1);
         $stmt->bindParam(':nombre2', $nombre2);
         $stmt->bindParam(':apellido1', $apellido1);
@@ -197,21 +210,21 @@ if (isset($_POST['enviar'])) {
         $stmt->bindParam(':sector', $sector);
         $stmt->bindParam(':ciudad', $ciudad);
         $stmt->bindParam(':telefono', $telefono);
-        #$stmt->bindParam(':whatsapp', $whatsapp);
+        $stmt->bindParam(':whatsapp', $whatsapp);
         $stmt->bindParam(':sistemaprevision', $sistemaprevision);
         $stmt->bindParam(':sistemasalud', $sistemasalud);
         $stmt->bindParam(':jubilacion', $jubilacion);
         $stmt->bindParam(':detalles_jubilacion', $detalles_jubilacion);
         $stmt->bindParam(':anios_experiencia', $anios_experiencia);
         $stmt->bindParam(':detalles_experiencia', $detalles_experiencia);
-        $stmt->bindParam(':foto1', $foto1, PDO::PARAM_LOB);
-        $stmt->bindParam(':foto2', $foto2, PDO::PARAM_LOB);
-
+        $stmt->bindParam(':foto1', $rutaDeImagen1);
+        $stmt->bindParam(':foto2', $rutaDeImagen2);
+        $stmt->bindParam(':calif', $calif);
+        $stmt->bindParam(':runc', $runc);
         // Ejecutar la consulta
         $stmt->execute();
-
-        echo "Nuevo registro creado exitosamente.";
-
+        echo '<script>window.location.href = "InscripcionTrabajo.php";</script>';
+        exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     } finally {
@@ -219,11 +232,6 @@ if (isset($_POST['enviar'])) {
         $conn = null;
     }
 }
-
 ?>
 </body>
 </html>
-
-
-
-
