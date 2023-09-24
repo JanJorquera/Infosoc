@@ -227,7 +227,7 @@ $query="CREATE TABLE IF NOT EXISTS confirmtrabajo (
     ofnumero INT,
     FOREIGN KEY (ofnumero) REFERENCES antecofertas(ofnumero),
     fechaconfirmacion DATE NOT NULL,
-    horaconfirmacion DATE NOT NULL,
+    horaconfirmacion TIME NOT NULL,
     numeroconfirmacion INT NOT NULL,
     runtrabajador VARCHAR(100) NOT NULL,
     confasistencia BIT
