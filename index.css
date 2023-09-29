@@ -1,0 +1,32 @@
+
+body {
+    background: #7f7fd5; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.centrado {
+    text-align: center;
+    vertical-align: middle;
+}
+
+nav a {
+    text-decoration: none; /* Eliminar subrayado de enlaces */
+    color: white; /* Color de texto para enlaces */
+}
+
+.bloque-index {
+    width: 300px; /* Ancho personalizado */
+    height: 150px; /* Alto personalizado */
+    font-size: 5px; /* Tamaño de fuente personalizado */
+}
+
+.centrar-boton {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*width: 100%;
+    height: 100%;*/
+    
+}
