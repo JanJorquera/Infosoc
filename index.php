@@ -16,28 +16,45 @@ valorpagar, tipopago, formapago, mediopago, observaciones, nropersonas requerida
 
     </head>
 
+    <style>
+            .boton {
+            text-decoration: none; /* Eliminar subrayado de enlaces */
+            color: white; /* Color de texto para enlaces */
+            display: inline-block;
+            padding: 30px 100px; /* Ajusta el relleno según tus preferencias */
+            /*width: 100px; /* Ajusta el relleno según tus preferencias */
+            /*height: 20px; /* Ajusta el relleno según tus preferencias */
+            background-color: #007BFF; /* Cambia el color de fondo a tu elección */
+            color: #fff; /* Cambia el color del texto a tu elección */
+            text-decoration: none;
+            border: none;
+            border-radius: 5px; /* Agrega esquinas redondeadas si lo deseas */
+            cursor: pointer;
+            font-size: 150%;
+            
+        }
 
+        .boton:hover, .boton:focus {
+            text-decoration: none; /* Elimina el subrayado en el estado hover y focus */
+            background-color: #0056b3; /* Cambia el color de fondo al pasar el cursor sobre el botón */
+            color: #fff; /* Cambia el color del texto al pasar el cursor sobre el botón */
+        }
 
+        nav a {
+            text-decoration: none; /* Eliminar subrayado de enlaces */
+            color: white; /* Color de texto para enlaces */
+        }
+        
+    </style>
 
     <body>
   
         <h1> Elegir profesion (cambiar) </h1>
         <!-- temporero / transportista / constratista -->
         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
-                <button class="btn btn-primary mb-3 bloque-index" type="button">Temporero</button>
-
-                <a href="http://localhost/infosoc/pagina2.php" class="btn btn-primary mb-3 bloque-index" role="button">Temporero</a>
-
-                <a href="http://localhost/infosoc/pagina2.php" class="btn btn-primary mb-3 bloque-index text-center align-middle mx-auto"  role="button">Transportista</a>
-
-                <a href="http://localhost/infosoc/login_contratista.php" class="btn btn-primary mb-3 bloque-index centrar-boton" role="button">Contratista</a>
-
+            <a href="oferta_temporero.php" class="boton mb-3">  Temporero  </a>
+            <a href="" class="boton mb-3">Transportista</a>
+            <a href="login_contratista.php" class="boton mb-3"> Contratista </a>
         </div>
     </body>
 </html>
-
-
-
-
-
-
